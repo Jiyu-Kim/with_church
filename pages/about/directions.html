@@ -54,8 +54,11 @@
     //   3) 또는 map.naver.com 에서 교회를 화면 정중앙에 두면 URL이
     //      .../map.naver.com/p/?c=15.00,0,0,0,dh@127.10428,37.30353,15 와 같이
     //      바뀌고 그 안에 lng,lat 가 있음 (※ 네이버는 lng,lat 순서!)
-    const CHURCH_LAT = 37.30353;   // ← 정확한 좌표로 교체하세요
-    const CHURCH_LNG = 127.10428;  // ← 정확한 좌표로 교체하세요
+    // 위드교회 위치 좌표 (Naver Place 2076622438 기준)
+    //   도로명: 경기 용인시 수지구 상현로11번길 26 상가동 101호, 201호
+    //   지번:   경기 용인시 수지구 상현동 825 (우편 16938)
+    const CHURCH_LAT = 37.3039504;
+    const CHURCH_LNG = 127.0765200;
 
     function initNaverMap() {
       const mapEl = document.getElementById("naver-map");
