@@ -1,7 +1,11 @@
-# ===== API keys / secrets — DO NOT commit =====
-# Real API keys live here locally; copy from assets/js/config.example.js and
-# fill in values. See README §3 for setup.
-assets/js/config.js
+# ===== Secrets — DO NOT commit =====
+# 클라이언트 사이드 API 키(Naver Client ID, YouTube Data API Key)는
+# 도메인/리퍼러 제한으로 보호되므로 config.js 와 함께 그대로 커밋합니다.
+# 절대 커밋 금지: Naver Maps "Client Secret" 같은 서버 시크릿.
+# 향후 .env 등 시크릿 파일이 생기면 여기 아래에 추가하세요.
+.env
+.env.local
+secrets.json
 
 # ===== macOS =====
 .DS_Store

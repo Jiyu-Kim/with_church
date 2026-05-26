@@ -338,6 +338,54 @@
       </div>`;
   }
 
+  // ----- YouTube: embed the single latest video from a playlist -----
+  // Used on the homepage's "최근 주일 예배" teaser. The playlistItems.list
+  // endpoint returns items in playlist position order (not date), so we sort
+  // by snippet.publishedAt (= date added to playlist) descending and take the
+  // newest. Falls back to embedPlaylist() if the API is unavailable.
+  async function embedLatestVideo(targetId, playlistId, { apiKey } = {}) {
+    const target = document.getElementById(targetId);
+    if (!target) return;
+    const key = apiKey || (window.W1TH_CONFIG && window.W1TH_CONFIG.YOUTUBE_API_KEY);
+    if (!key || /YOUR_.+_HERE$/.test(key)) {
+      return embedPlaylist(targetId, playlistId);
+    }
+    try {
+      const apiUrl = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=${encodeURIComponent(playlistId)}&key=${encodeURIComponent(key)}`;
+      const res = await fetch(apiUrl);
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      const data = await res.json();
+      const items = (data.items || [])
+        .filter((it) => it.snippet && it.snippet.resourceId && it.snippet.resourceId.kind === "youtube#video")
+        .filter((it) => !/^(Private|Deleted) video$/i.test(it.snippet.title))
+        .sort((a, b) => new Date(b.snippet.publishedAt) - new Date(a.snippet.publishedAt));
+      if (items.length === 0) {
+        target.innerHTML = `<p class="muted text-center">아직 영상이 업로드되지 않았습니다.</p>`;
+        return;
+      }
+      const v = items[0];
+      target.innerHTML = `
+        <div class="video-wrap">
+          <div class="video-frame">
+            <iframe
+              src="https://www.youtube.com/embed/${encodeURIComponent(v.snippet.resourceId.videoId)}?rel=0"
+              title="${escapeHtml(v.snippet.title)}"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+              referrerpolicy="strict-origin-when-cross-origin"
+              loading="lazy"></iframe>
+          </div>
+          <div class="video-featured-info">
+            <h3 class="video-featured-title">${escapeHtml(v.snippet.title)}</h3>
+            <div class="video-featured-meta">${formatDate(v.snippet.publishedAt)}</div>
+          </div>
+        </div>`;
+    } catch (e) {
+      console.warn("최신 영상 로드 실패 — 단일 임베드로 폴백:", e);
+      embedPlaylist(targetId, playlistId);
+    }
+  }
+
   // ----- YouTube playlist grid (Data API v3) -----
   // Renders: large featured player on top + grid of remaining thumbnails.
   // Click on a thumbnail swaps it into the featured player.
@@ -480,6 +528,7 @@
     loadText,
     loadPeople,
     embedPlaylist,
+    embedLatestVideo,
     embedPlaylistGrid,
     copyToClipboard(text, btn) {
       navigator.clipboard.writeText(text).then(() => {

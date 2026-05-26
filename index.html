@@ -57,11 +57,6 @@
       <div class="container">
         <h2 class="section-title">최근 주일 예배</h2>
         <p class="section-sub">유튜브 플레이리스트의 최신 영상을 바로 시청하실 수 있습니다</p>
-        <!--
-          Embed plays the playlist in YouTube's defined order. To always show
-          the newest sermon first, sort the playlist by "Date added (newest)"
-          inside YouTube Studio (Playlist settings → Ordering).
-        -->
         <div id="latest-sermon"></div>
         <p class="text-center mt-3">
           <a class="btn btn--ghost" href="pages/worship/sunday.html">주일 예배 전체 보기</a>
@@ -72,10 +67,14 @@
 
   <footer id="site-footer" class="site-footer"></footer>
 
+  <script src="assets/js/config.js"></script>
   <script src="assets/js/main.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      W1TH.embedPlaylist("latest-sermon", "PL-SIZnTbdPxnJHD3VpmesGdpo_t3IcmUh");
+      // Always fetches the most-recently-added video from the playlist via
+      // YouTube Data API; falls back to a generic playlist embed if the API
+      // call fails (e.g. quota exceeded, referrer mismatch).
+      W1TH.embedLatestVideo("latest-sermon", "PL-SIZnTbdPxnJHD3VpmesGdpo_t3IcmUh");
     });
   </script>
 </body>
