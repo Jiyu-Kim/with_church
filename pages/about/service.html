@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>예배 시간 | 위드교회</title>
+  <link rel="icon" href="../../src/logo.png" />
+  <link rel="stylesheet" href="../../assets/css/style.css" />
+</head>
+<body>
+  <header id="site-header" class="site-header"></header>
+
+  <main>
+    <section class="section">
+      <div class="container">
+        <h1 id="service-title" class="page-title">예배 시간</h1>
+        <p class="page-subtitle">위드교회의 모든 예배는 누구나 환영합니다</p>
+
+        <div id="service-table-wrap" class="service-table-wrap">
+          <table class="service-table">
+            <thead>
+              <tr>
+                <th scope="col">구분</th>
+                <th scope="col">시간</th>
+                <th scope="col">장소</th>
+              </tr>
+            </thead>
+            <tbody id="service-rows"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="site-footer" class="site-footer"></footer>
+
+  <script src="../../assets/js/main.js"></script>
+  <script>
+    // Parse service.txt:
+    //   First non-empty line → page title
+    //   Following lines    → "<구분> : <시간> <장소>"
+    // 시간/장소 분리는 "N시" 또는 "N시 M분" 패턴을 경계로 사용.
+    async function loadServiceTimes() {
+      const titleEl = document.getElementById("service-title");
+      const rowsEl = document.getElementById("service-rows");
+      try {
+        const res = await fetch(W1TH.url("content/service.txt"));
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        const raw = await res.text();
+        const lines = raw.replace(/\r\n/g, "\n").split("\n").map((l) => l.trim()).filter(Boolean);
+        if (lines.length === 0) return;
+
+        if (titleEl) titleEl.textContent = lines[0];
+
+        const rows = lines.slice(1).map((line) => {
+          const [label, ...rest] = line.split(/\s*:\s*/);
+          const detail = rest.join(" : ");
+          // Split detail into "시간" + "장소" by the time tail "N시" or "N시 N분"
+          const m = detail.match(/^(.*?\d+\s*시(?:\s*\d+\s*분)?)\s+(.+)$/);
+          const time = m ? m[1].trim() : detail;
+          const place = m ? m[2].trim() : "";
+          return { label: (label || "").trim(), time, place };
+        }).filter((r) => r.label);
+
+        rowsEl.innerHTML = rows.map((r) => `
+          <tr>
+            <th scope="row">${escapeHtml(r.label)}</th>
+            <td>${escapeHtml(r.time)}</td>
+            <td>${escapeHtml(r.place)}</td>
+          </tr>`).join("");
+      } catch (e) {
+        rowsEl.innerHTML = `<tr><td colspan="3" class="muted text-center">예배 시간 정보를 불러올 수 없습니다.</td></tr>`;
+        console.warn("service.txt 로드 실패:", e);
+      }
+    }
+    function escapeHtml(s) {
+      return String(s)
+        .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+    }
+    document.addEventListener("DOMContentLoaded", loadServiceTimes);
+  </script>
+</body>
+</html>

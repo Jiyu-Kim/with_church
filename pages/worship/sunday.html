@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>주일 예배 영상 | 위드교회</title>
+  <link rel="icon" href="../../src/logo.png" />
+  <link rel="stylesheet" href="../../assets/css/style.css" />
+</head>
+<body>
+  <header id="site-header" class="site-header"></header>
+
+  <main>
+    <section class="section">
+      <div class="container">
+        <h1 class="page-title">주일 예배 영상</h1>
+        <p class="page-subtitle">매주 일요일 오전 11시 본당 예배 (주 1회 업데이트)</p>
+        <div id="sunday-playlist"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="site-footer" class="site-footer"></footer>
+
+  <script src="../../assets/js/config.js"></script>
+  <script src="../../assets/js/main.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      W1TH.embedPlaylistGrid("sunday-playlist", "PL-SIZnTbdPxnJHD3VpmesGdpo_t3IcmUh", { maxResults: 16 });
+    });
+  </script>
+</body>
+</html>

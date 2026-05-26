@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>위드교회 | W1th Church</title>
+  <meta name="description" content="위드교회(W1th Church) — 머리이신 예수님을 배워가는 공동체. 경기 용인시 수지구 상현동에 위치한 대한예수교장로회(합동) 용인노회 소속 교회." />
+  <link rel="icon" href="src/logo.png" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+  <header id="site-header" class="site-header"></header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1>w<span class="accent">1</span>th 교회에 오신 것을 환영합니다</h1>
+        <p>예수님은 교회의 머리가 되시고 교회는 예수님의 몸입니다.<br />
+           이 하나됨의 영광을 함께 누리시기를 축복합니다.</p>
+        <p>
+          <a class="btn" href="pages/about/intro.html">인사말 보기</a>
+          <a class="btn" href="pages/about/directions.html" style="margin-left:0.5rem;">찾아오시는 길</a>
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2 class="section-title">바로가기</h2>
+        <p class="section-sub">위드교회의 사역을 한눈에 보세요</p>
+        <div class="cards-grid">
+          <a class="quick-card" href="pages/about/intro.html">
+            <div class="icon">&#127978;</div>
+            <h3>w1th 교회소개</h3>
+            <p>인사말 · 섬기는 사람들 · 예배 안내</p>
+          </a>
+          <a class="quick-card" href="pages/worship/sunday.html">
+            <div class="icon">&#127909;</div>
+            <h3>w1th 예배영상</h3>
+            <p>주일 · 금요 · 새벽 묵상 · 찬양</p>
+          </a>
+          <a class="quick-card" href="pages/school/children.html">
+            <div class="icon">&#128218;</div>
+            <h3>w1th 교회학교</h3>
+            <p>Children · Teens · Youth</p>
+          </a>
+          <a class="quick-card" href="pages/events/schedule.html">
+            <div class="icon">&#128197;</div>
+            <h3>w1th 교회행사</h3>
+            <p>교회 일정 · 행사 사진</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--alt">
+      <div class="container">
+        <h2 class="section-title">최근 주일 예배</h2>
+        <p class="section-sub">유튜브 플레이리스트의 최신 영상을 바로 시청하실 수 있습니다</p>
+        <!--
+          Embed plays the playlist in YouTube's defined order. To always show
+          the newest sermon first, sort the playlist by "Date added (newest)"
+          inside YouTube Studio (Playlist settings → Ordering).
+        -->
+        <div id="latest-sermon"></div>
+        <p class="text-center mt-3">
+          <a class="btn btn--ghost" href="pages/worship/sunday.html">주일 예배 전체 보기</a>
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer id="site-footer" class="site-footer"></footer>
+
+  <script src="assets/js/main.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      W1TH.embedPlaylist("latest-sermon", "PL-SIZnTbdPxnJHD3VpmesGdpo_t3IcmUh");
+    });
+  </script>
+</body>
+</html>

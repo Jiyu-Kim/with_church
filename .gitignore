@@ -1,0 +1,41 @@
+# ===== API keys / secrets — DO NOT commit =====
+# Real API keys live here locally; copy from assets/js/config.example.js and
+# fill in values. See README §3 for setup.
+assets/js/config.js
+
+# ===== macOS =====
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+
+# ===== Editor & IDE =====
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.claude/
+
+# ===== Local previews / scratch =====
+.preview/
+.scratch/
+*.tmp
+
+# ===== Logs =====
+*.log
+npm-debug.log*
+
+# ===== Node (in case tooling is added later) =====
+node_modules/
+.pnp
+.pnp.js
+
+# ===== OS / network =====
+Thumbs.db
+ehthumbs.db
+
+# ===== Original prompt (keep local for reference) =====
+PROMPT.md
+layout.jpeg
