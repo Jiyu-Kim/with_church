@@ -62,11 +62,13 @@
           return { label: (label || "").trim(), time, place };
         }).filter((r) => r.label);
 
+        // data-label attrs are used by the mobile CSS to label each cell when
+        // the table reflows into a stacked card layout on narrow viewports.
         rowsEl.innerHTML = rows.map((r) => `
           <tr>
             <th scope="row">${escapeHtml(r.label)}</th>
-            <td>${escapeHtml(r.time)}</td>
-            <td>${escapeHtml(r.place)}</td>
+            <td data-label="시간">${escapeHtml(r.time)}</td>
+            <td data-label="장소">${escapeHtml(r.place)}</td>
           </tr>`).join("");
       } catch (e) {
         rowsEl.innerHTML = `<tr><td colspan="3" class="muted text-center">예배 시간 정보를 불러올 수 없습니다.</td></tr>`;

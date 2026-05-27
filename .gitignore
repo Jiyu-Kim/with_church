@@ -22,10 +22,12 @@ Icon
 *~
 .claude/
 
-# ===== Local previews / scratch =====
+# ===== Local previews / scratch / backups =====
 .preview/
 .scratch/
 *.tmp
+*.bak
+*.bak.*
 
 # ===== Logs =====
 *.log
