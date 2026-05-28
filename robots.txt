@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+# Naver / Daum 한국 검색엔진도 명시적으로 허용
+User-agent: Yeti
+Allow: /
+
+User-agent: Daumoa
+Allow: /
+
+Sitemap: https://jiyu-kim.github.io/with_church/sitemap.xml
