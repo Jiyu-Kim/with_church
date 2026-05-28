@@ -93,13 +93,30 @@ p { margin: 0 0 1em; }
 }
 
 .brand {
-  display: inline-flex;
-  align-items: center;
+  display: flex;
+  align-items: flex-end; /* heart + wordmark sit on the same baseline; presbyterian rises above */
+  gap: 0.2rem;
   color: var(--color-text);
+  line-height: 1;
 }
 .brand:hover { text-decoration: none; }
-.brand img.brand-sign {
-  height: 40px;
+.brand img.brand-heart {
+  height: 22px;
+  width: auto;
+  flex-shrink: 0;
+}
+.brand-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; /* presbyterian sits over the right edge of 위드교회, matching the .ai layout */
+  gap: 0.2rem;
+}
+.brand img.brand-presbyterian {
+  height: 13px;
+  width: auto;
+}
+.brand img.brand-wordmark {
+  height: 22px;
   width: auto;
 }
 
@@ -187,7 +204,9 @@ p { margin: 0 0 1em; }
 @media (min-width: 1024px) {
   :root { --header-h: 72px; }
   .hamburger { display: none; }
-  .brand img.brand-sign { height: 52px; }
+  .brand img.brand-heart { height: 28px; }
+  .brand img.brand-presbyterian { height: 16px; }
+  .brand img.brand-wordmark { height: 28px; }
 
   .main-nav {
     position: static;
@@ -257,6 +276,10 @@ p { margin: 0 0 1em; }
   color: #fff;
   font-size: clamp(1.7rem, 4vw, 2.6rem);
   margin-bottom: 0.6rem;
+  /* Distribute the headline evenly across lines so the last word doesn't end
+     up alone on its own line (avoids "...환영합니" / "다" orphan on iPhone). */
+  text-wrap: balance;
+  word-break: keep-all;
 }
 .hero p {
   font-size: clamp(1rem, 2.2vw, 1.15rem);

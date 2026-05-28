@@ -96,7 +96,11 @@
     host.innerHTML = `
       <div class="container header-inner">
         <a class="brand" href="${url("index.html")}" aria-label="위드교회 홈으로">
-          <img src="${url("src/간판.svg")}" alt="대한예수교장로회 합동 위드교회" class="brand-sign" />
+          <img src="${url("src/heart.svg")}" alt="" class="brand-heart" aria-hidden="true" />
+          <span class="brand-stack">
+            <img src="${url("src/presbyterian.svg")}" alt="대한예수교장로회" class="brand-presbyterian" />
+            <img src="${url("src/wordmark-text.svg")}" alt="위드교회 W1th Church" class="brand-wordmark" />
+          </span>
         </a>
         <button class="hamburger" type="button" aria-label="메뉴 열기" aria-expanded="false" aria-controls="main-nav">
           <span></span><span></span><span></span>
