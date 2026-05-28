@@ -25,6 +25,7 @@ Icon
 # ===== Local previews / scratch / backups =====
 .preview/
 .scratch/
+request/
 *.tmp
 *.bak
 *.bak.*

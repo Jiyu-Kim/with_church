@@ -13,7 +13,14 @@
   <main>
     <section class="section">
       <div class="container">
-        <div id="intro-content"></div>
+        <h1 id="intro-title" class="page-title">인사말</h1>
+        <div class="intro-layout">
+          <figure class="intro-photo">
+            <img src="../../src/overview/최유석_인사말_사진.jpeg" alt="최유석 담임목사" loading="lazy" />
+            <figcaption>최유석 담임목사</figcaption>
+          </figure>
+          <div id="intro-content"></div>
+        </div>
       </div>
     </section>
   </main>
@@ -23,7 +30,11 @@
   <script src="../../assets/js/main.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      W1TH.loadText("introduction.txt", "intro-content", { firstLineAsTitle: true, allowHtml: true });
+      W1TH.loadText("introduction.md", "intro-content", {
+        firstLineAsTitle: true,
+        allowHtml: true,
+        titleTargetId: "intro-title",
+      });
     });
   </script>
 </body>

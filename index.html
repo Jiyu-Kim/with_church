@@ -63,6 +63,16 @@
         </p>
       </div>
     </section>
+
+    <section class="section">
+      <div class="container">
+        <h2 class="section-title">함께하는 위드</h2>
+        <p class="section-sub">위드교회 식구들의 함께하는 순간들</p>
+        <div class="main-photo-frame">
+          <img id="main-random-photo" alt="위드교회 함께하는 모습" loading="lazy" />
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer id="site-footer" class="site-footer"></footer>
@@ -71,6 +81,16 @@
   <script src="assets/js/main.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
+      // Random "함께하는 위드" photo — one of 4 community shots, picked at load.
+      const mainPhotos = [
+        "src/main/rotated_image_1.jpeg",
+        "src/main/rotated_image_2.jpeg",
+        "src/main/rotated_image_3.jpeg",
+        "src/main/rotated_image_4.jpeg",
+      ];
+      const pick = mainPhotos[Math.floor(Math.random() * mainPhotos.length)];
+      document.getElementById("main-random-photo").src = pick;
+
       // Always fetches the most-recently-added video from the playlist via
       // YouTube Data API; falls back to a generic playlist embed if the API
       // call fails (e.g. quota exceeded, referrer mismatch).

@@ -13,15 +13,23 @@
   <main>
     <section class="section">
       <div class="container">
-        <div class="coming-soon">
-          <div class="icon">&#128172;</div>
-          <h2>Children — 준비 중</h2>
-          <p>키즈/칠드런 사역(6~10세) 안내가 곧 업데이트됩니다.</p>
-          <p class="muted">현재 예배: 주일 오전 9시 30분 위드드림(핑크방)</p>
-          <p class="mt-3">
-            <a class="btn btn--ghost" href="../../index.html">홈으로 돌아가기</a>
-          </p>
-        </div>
+        <h1 class="page-title">w1th 키즈 / 칠드런</h1>
+        <p class="page-subtitle">Kids / Children · 1~10세</p>
+
+        <article class="school-page">
+          <figure class="school-hero">
+            <img src="../../src/school/children.jpeg" alt="위드 칠드런" loading="lazy" />
+          </figure>
+          <div id="school-content" class="school-content"></div>
+          <aside class="school-info">
+            <h3>예배 안내</h3>
+            <dl>
+              <dt>시간</dt><dd>주일 오전 9시 30분</dd>
+              <dt>키즈 (1~5세)</dt><dd><span class="room-dot room-dot--yellow"></span><a href="../about/location.html#small-groups">위드조이 (노랑방, 1층)</a></dd>
+              <dt>칠드런 (6~10세)</dt><dd><span class="room-dot room-dot--pink"></span><a href="../about/location.html#small-groups">위드드림 (핑크방)</a></dd>
+            </dl>
+          </aside>
+        </article>
       </div>
     </section>
   </main>
@@ -29,5 +37,10 @@
   <footer id="site-footer" class="site-footer"></footer>
 
   <script src="../../assets/js/main.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      W1TH.loadMarkdown("children.md", "school-content");
+    });
+  </script>
 </body>
 </html>

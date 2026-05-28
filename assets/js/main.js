@@ -33,7 +33,7 @@
         { label: "인사말",        file: "pages/about/intro.html" },
         { label: "섬기는 사람들", file: "pages/about/people.html" },
         { label: "예배 시간",     file: "pages/about/service.html" },
-        { label: "예배 장소",     file: "pages/about/location.html" },
+        { label: "교회 시설",     file: "pages/about/location.html" },
         { label: "찾아오시는 길", file: "pages/about/directions.html" },
       ],
     },
@@ -49,9 +49,9 @@
     {
       title: "w1th 교회학교",
       items: [
-        { label: "Children", file: "pages/school/children.html" },
-        { label: "Teens",    file: "pages/school/teens.html" },
-        { label: "Youth",    file: "pages/school/youth.html" },
+        { label: "Kids/Children", file: "pages/school/children.html" },
+        { label: "Teens",        file: "pages/school/teens.html" },
+        { label: "Youth",        file: "pages/school/youth.html" },
       ],
     },
     {
@@ -96,8 +96,7 @@
     host.innerHTML = `
       <div class="container header-inner">
         <a class="brand" href="${url("index.html")}" aria-label="위드교회 홈으로">
-          <img src="${url("src/logo.png")}" alt="위드교회 로고" />
-          <span class="brand-name">위드교회</span>
+          <img src="${url("src/간판.svg")}" alt="대한예수교장로회 합동 위드교회" class="brand-sign" />
         </a>
         <button class="hamburger" type="button" aria-label="메뉴 열기" aria-expanded="false" aria-controls="main-nav">
           <span></span><span></span><span></span>
@@ -130,10 +129,10 @@
     if (!host) return;
     let text = "";
     try {
-      const res = await fetch(url("content/footer.txt"));
+      const res = await fetch(url("content/footer.md"));
       if (res.ok) text = await res.text();
     } catch (e) {
-      console.warn("footer.txt 로드 실패:", e);
+      console.warn("footer.md 로드 실패:", e);
     }
     host.innerHTML = `
       <div class="container">
@@ -178,7 +177,7 @@
     return out;
   }
 
-  async function loadText(filename, targetId, { firstLineAsTitle = false, allowHtml = false } = {}) {
+  async function loadText(filename, targetId, { firstLineAsTitle = false, allowHtml = false, titleTargetId = null } = {}) {
     const target = document.getElementById(targetId);
     if (!target) return;
     try {
@@ -199,11 +198,80 @@
       const renderedBody = allowHtml
         ? sanitizeHtml(body).replace(/\n\n+/g, "</p><p>").replace(/\n/g, "<br />")
         : escapeHtml(body).replace(/\n\n+/g, "</p><p>");
-      target.innerHTML = `
-        ${title ? `<h1 class="page-title">${escapeHtml(title)}</h1>` : ""}
-        <div class="prose"><p>${renderedBody}</p></div>`;
+      // If a separate titleTargetId is provided, route the title there so the
+      // caller can place an image (or anything else) next to the body.
+      const titleEl = titleTargetId ? document.getElementById(titleTargetId) : null;
+      if (title && titleEl) titleEl.textContent = title;
+      target.innerHTML =
+        (title && !titleEl ? `<h1 class="page-title">${escapeHtml(title)}</h1>` : "") +
+        `<div class="prose"><p>${renderedBody}</p></div>`;
     } catch (e) {
       target.innerHTML = `<p class="muted text-center">콘텐츠를 불러올 수 없습니다. 로컬에서 보시는 경우 <code>python3 -m http.server</code> 등 정적 서버로 실행해 주세요.</p>`;
+      console.warn(filename + " 로드 실패:", e);
+    }
+  }
+
+  // ----- Minimal Markdown loader -----
+  // Supports a small subset that fits this site's content:
+  //   #/##/### headings, paragraphs (separated by blank lines), **bold**,
+  //   *italic*, [text](url) links, single newlines as <br />.
+  // Everything else flows through escapeHtml. This is intentionally tiny —
+  // if more features are needed, swap in a real parser.
+  function renderMarkdown(raw) {
+    const lines = raw.replace(/\r\n/g, "\n").split("\n");
+    const blocks = [];
+    let para = [];
+    const flush = () => {
+      if (para.length === 0) return;
+      const inner = inlineMd(para.join("\n"));
+      blocks.push(`<p>${inner.replace(/\n/g, "<br />")}</p>`);
+      para = [];
+    };
+    for (const line of lines) {
+      const t = line.trim();
+      if (t === "") { flush(); continue; }
+      const h = /^(#{1,6})\s+(.+)$/.exec(t);
+      if (h) {
+        flush();
+        const level = Math.min(6, h[1].length + 1); // # → h2 (page already has h1)
+        blocks.push(`<h${level}>${inlineMd(h[2])}</h${level}>`);
+        continue;
+      }
+      para.push(line);
+    }
+    flush();
+    return blocks.join("\n");
+  }
+
+  function inlineMd(s) {
+    // 1) Convert markdown links first
+    let out = String(s).replace(/\[([^\]\n]+)\]\(([^)\s]+)\)/g, (_, text, href) => {
+      return `<a href="${escapeHtml(safeHrefOrFallback(href))}" target="_blank" rel="noopener">${escapeHtml(text)}</a>`;
+    });
+    // 2) Bold / italic — escape any HTML in remaining text but preserve our inserted <a>
+    //    Strategy: temporarily protect the <a>…</a> spans, escape the rest, restore.
+    const placeholders = [];
+    out = out.replace(/<a [^>]*>[\s\S]*?<\/a>/g, (m) => {
+      placeholders.push(m);
+      return ` PH${placeholders.length - 1} `;
+    });
+    out = escapeHtml(out)
+      .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+      .replace(/(^|[^*])\*([^*]+)\*(?!\*)/g, "$1<em>$2</em>");
+    out = out.replace(/ PH(\d+) /g, (_, i) => placeholders[Number(i)]);
+    return out;
+  }
+
+  async function loadMarkdown(filename, targetId) {
+    const target = document.getElementById(targetId);
+    if (!target) return;
+    try {
+      const res = await fetch(url("content/" + filename));
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      const raw = await res.text();
+      target.innerHTML = renderMarkdown(raw);
+    } catch (e) {
+      target.innerHTML = `<p class="muted text-center">콘텐츠를 불러올 수 없습니다.</p>`;
       console.warn(filename + " 로드 실패:", e);
     }
   }
@@ -260,7 +328,7 @@
     const target = document.getElementById(targetId);
     if (!target) return;
     try {
-      const res = await fetch(url("content/people.txt"));
+      const res = await fetch(url("content/people.md"));
       if (!res.ok) throw new Error("HTTP " + res.status);
       const raw = await res.text();
       const { title, groups } = parsePeople(raw);
@@ -286,18 +354,10 @@
     }
   }
 
-  // Roles that get an "학력 및 경력" details placeholder beside their card.
-  // 사모 and other supporting roles only show the photo card.
-  const ROLES_WITH_DETAILS = new Set(["목사", "강도사", "전도사", "장로"]);
-
   function personBlock(person) {
-    const hasDetails = ROLES_WITH_DETAILS.has(person.role);
-    // Image filename convention in this repo: "<이름>_프로필_사진.jpeg"
-    // (Spec mentioned name+role in filename, but actual files use name only —
-    //  we adopt the actual on-disk convention. See README "인물 사진 추가" 섹션.)
     const filename = `${person.name}_프로필_사진.jpeg`;
     const src = url("src/people/" + encodeURIComponent(filename));
-    const cardHtml = `
+    return `
       <div class="person-card">
         <div class="person-photo">
           <img src="${src}" alt="${escapeHtml(person.name + " " + person.role)} 프로필 사진" loading="lazy"
@@ -308,13 +368,6 @@
           <div class="role">${escapeHtml(person.role)}</div>
         </div>
       </div>`;
-    const detailsHtml = hasDetails
-      ? `<div class="person-details">
-           <h4>학력 및 경력</h4>
-           <p class="placeholder">준비 중입니다.</p>
-         </div>`
-      : "";
-    return `<div class="person-block${hasDetails ? " has-details" : ""}">${cardHtml}${detailsHtml}</div>`;
   }
 
   // ----- YouTube playlist embed (single iframe fallback) -----
@@ -526,6 +579,7 @@
   window.W1TH = {
     url,
     loadText,
+    loadMarkdown,
     loadPeople,
     embedPlaylist,
     embedLatestVideo,
