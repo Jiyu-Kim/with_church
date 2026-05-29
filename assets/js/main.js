@@ -55,9 +55,9 @@
       ],
     },
     {
-      title: "w1th 교회행사",
+      title: "w1th 교회소식",
       items: [
-        { label: "일정",     file: "pages/events/schedule.html" },
+        { label: "주보",     file: "pages/events/schedule.html" },
         { label: "행사 사진", file: "pages/events/photos.html" },
       ],
     },
