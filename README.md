@@ -144,7 +144,7 @@ npx http-server -p 8000
 
 ### 3-6. 새벽 묵상 / 찬양 콘텐츠 채우기
 - 두 페이지 모두 현재는 "준비 중" placeholder입니다.
-- 업로드 방식이 정해지면 `pages/worship/dawn.html`, `pages/worship/praise.html` 의 `<div class="coming-soon">`
+- 업로드 방식이 정해지면 `pages/worship/dawn.html` 의 `<div class="coming-soon">`
   블록을 실제 콘텐츠로 교체하세요. `dawn.html`에는 옵션을 정리한 TODO 주석이 있습니다.
 
 ---

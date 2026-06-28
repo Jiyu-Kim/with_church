@@ -43,7 +43,6 @@
         { label: "주일 예배 영상", file: "pages/worship/sunday.html" },
         { label: "금요 예배 영상", file: "pages/worship/friday.html" },
         { label: "새벽 묵상",      file: "pages/worship/dawn.html" },
-        { label: "찬양",           file: "pages/worship/praise.html" },
       ],
     },
     {
@@ -57,7 +56,6 @@
     {
       title: "w1th 교회소식",
       items: [
-        { label: "주보",     file: "pages/events/schedule.html" },
         { label: "행사 사진", file: "pages/events/photos.html" },
       ],
     },

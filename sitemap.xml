@@ -46,11 +46,6 @@
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://jiyu-kim.github.io/with_church/pages/worship/praise.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
     <loc>https://jiyu-kim.github.io/with_church/pages/school/children.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -64,11 +59,6 @@
     <loc>https://jiyu-kim.github.io/with_church/pages/school/youth.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://jiyu-kim.github.io/with_church/pages/events/schedule.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
   </url>
   <url>
     <loc>https://jiyu-kim.github.io/with_church/pages/events/photos.html</loc>
