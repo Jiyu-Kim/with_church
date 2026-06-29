@@ -1142,10 +1142,3 @@ p { margin: 0 0 1em; }
   margin-bottom: 2.5rem;
 }
 .muted { color: var(--color-text-muted); }
-.notice {
-  background: var(--color-bg);
-  border-left: 4px solid var(--color-primary);
-  padding: 1rem 1.2rem;
-  border-radius: var(--radius-sm);
-  margin: 1.5rem 0;
-}

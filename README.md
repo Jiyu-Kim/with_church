@@ -39,29 +39,21 @@
 
 ---
 
-## 2. 처음 클론 후 설정 (API 키)
+## 2. API 키 (`assets/js/config.js`)
 
-이 사이트는 **네이버 지도**와 **유튜브 Data API**를 사용하며, 키는 보안상
-`assets/js/config.js` 에만 보관하고 git 에서는 제외합니다(`.gitignore`).
+이 사이트는 **네이버 지도**와 **유튜브 Data API**를 사용합니다. 두 키 모두
+도메인/리퍼러 제한이 가능하므로 `assets/js/config.js` 에 직접 두고 그대로 커밋하는 것이
+업계 표준이고, 본 프로젝트도 그렇게 운영합니다.
 
-새로 클론한 뒤 한 번만 해주세요:
+키 발급/제한 (각 콘솔에서 *반드시* 도메인 제한 설정해야 함):
+- **Naver Maps Client ID**: Naver Cloud Console → Maps Dynamic Map → "Web 서비스 URL" 에 `http://localhost:8000`, `https://jiyu-kim.github.io` 등록
+- **YouTube Data API v3 Key**: Google Cloud Console → API 키 → HTTP 리퍼러 제한 `http://localhost:8000/*`, `https://jiyu-kim.github.io/*`
 
-```bash
-cp assets/js/config.example.js assets/js/config.js
-# 그 후 에디터로 assets/js/config.js 열어서 실제 키 입력
-```
+> ⚠️ **절대 커밋 금지**: Naver Maps 의 "Client Secret"(서버용). 본 사이트는 클라이언트 사이드만 사용하므로 Secret 자체가 필요 없습니다.
 
-키 발급/제한 방법:
-- **Naver Maps Client ID**: Naver Cloud Console > Maps Dynamic Map > "Web 서비스 URL" 에 `http://localhost:8000`, `https://jiyu-kim.github.io` 등록
-- **YouTube Data API v3 Key**: Google Cloud Console > API 키 > HTTP 리퍼러 제한 `http://localhost:8000/*`, `https://jiyu-kim.github.io/*`
-
-**config.js 가 없거나 placeholder 상태여도 사이트는 동작합니다**:
+키가 없거나 placeholder 상태일 때 graceful fallback:
 - 지도 페이지 → "지도를 불러올 수 없습니다" 안내 + 네이버 외부 링크 버튼은 정상
-- 주일/금요 영상 → 갤러리 대신 단일 플레이리스트 임베드(폴백)
-
-> ⚠️ GitHub Pages 배포 시 키는 자동으로 함께 올라가지 **않습니다.** 배포 사이트에서
-> 지도/YouTube 갤러리 기능까지 보이려면 별도 처리(예: GitHub Actions 의 deploy step
-> 에서 secrets 주입)가 필요합니다. 기본 상태로 배포 시 폴백 화면이 노출됩니다.
+- 주일/금요/새벽 묵상 영상 → 갤러리 대신 단일 플레이리스트 임베드(폴백)
 
 ## 3. 로컬에서 미리보기
 
