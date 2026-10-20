@@ -8,4 +8,4 @@ Allow: /
 User-agent: Daumoa
 Allow: /
 
-Sitemap: https://jiyu-kim.github.io/with_church/sitemap.xml
+Sitemap: https://w1th-church.vercel.app/sitemap.xml

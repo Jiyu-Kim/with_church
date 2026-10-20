@@ -1,9 +1,10 @@
 # 위드교회 (W1th Church) 홈페이지
 
 경기 용인시 수지구 상현동에 위치한 **위드교회(W1th Church)** 공식 웹사이트입니다.
-빌드 도구 없이 HTML/CSS/Vanilla JS만으로 구성되어 있어 GitHub Pages에 그대로 배포할 수 있습니다.
+빌드 도구 없이 HTML/CSS/Vanilla JS만으로 구성되어 있어 Vercel(정적 호스팅)에 그대로 배포됩니다.
 
-배포 URL (예정): https://jiyu-kim.github.io/with_church/
+배포 URL: https://w1th-church.vercel.app/
+(이전 주소 https://jiyu-kim.github.io/with_church/ 도 당분간 유지)
 
 ---
 
@@ -46,8 +47,8 @@
 업계 표준이고, 본 프로젝트도 그렇게 운영합니다.
 
 키 발급/제한 (각 콘솔에서 *반드시* 도메인 제한 설정해야 함):
-- **Naver Maps Client ID**: Naver Cloud Console → Maps Dynamic Map → "Web 서비스 URL" 에 `http://localhost:8000`, `https://jiyu-kim.github.io` 등록
-- **YouTube Data API v3 Key**: Google Cloud Console → API 키 → HTTP 리퍼러 제한 `http://localhost:8000/*`, `https://jiyu-kim.github.io/*`
+- **Naver Maps Client ID**: Naver Cloud Console → Maps Dynamic Map → "Web 서비스 URL" 에 `http://localhost:8000`, `https://w1th-church.vercel.app`, `https://jiyu-kim.github.io` 등록
+- **YouTube Data API v3 Key**: Google Cloud Console → API 키 → HTTP 리퍼러 제한 `http://localhost:8000/*`, `https://w1th-church.vercel.app/*`, `https://jiyu-kim.github.io/*`
 
 > ⚠️ **절대 커밋 금지**: Naver Maps 의 "Client Secret"(서버용). 본 사이트는 클라이언트 사이드만 사용하므로 Secret 자체가 필요 없습니다.
 
@@ -149,17 +150,25 @@ npx http-server -p 8000
 
 ---
 
-## 6. GitHub Pages 배포
+## 6. 배포
 
 리포지토리: `https://github.com/Jiyu-Kim/with_church.git`
 
-### 5-1. 리포지토리 Public 전환 (Private이면 필수)
+### Vercel (기본)
+- Vercel 프로젝트 `w1th-church` 가 GitHub 리포와 연결되어 있어 `main` 에 push 하면 자동으로 프로덕션 배포됩니다.
+- 다른 브랜치/PR 을 push 하면 Preview URL 이 생성됩니다.
+- 빌드 스텝 없음 (Framework Preset: Other, 루트 디렉토리를 그대로 서빙). 존재하지 않는 경로는 `404.html` 이 응답합니다.
+- 도메인을 바꾸면 canonical/og 태그, `sitemap.xml`, `robots.txt`, 그리고 Naver/YouTube 키의 허용 도메인도 함께 바꿔야 합니다.
+
+### GitHub Pages (이전 배포, 당분간 유지)
+
+#### 5-1. 리포지토리 Public 전환 (Private이면 필수)
 GitHub Pages 무료 플랜은 **Public 리포에서만** 동작합니다.
 1. GitHub의 리포 페이지 → **Settings** → **General** → 맨 아래 **Danger Zone**
 2. **Change repository visibility** → **Make public** 선택
 3. (GitHub Pro 이상이면 Private 그대로도 사용 가능)
 
-### 5-2. 배포
+#### 5-2. 배포
 1. 모든 변경사항을 `main` 브랜치에 push
    ```bash
    git add .
@@ -171,7 +180,7 @@ GitHub Pages 무료 플랜은 **Public 리포에서만** 동작합니다.
 4. **Branch**: `main`, **Folder**: `/ (root)` 선택 → **Save**
 5. 1~2분 후 `https://jiyu-kim.github.io/with_church/` 에서 사이트 확인
 
-### 5-3. 자주 발생하는 문제
+#### 5-3. 자주 발생하는 문제
 - **CSS/JS가 안 보임** → 경로가 절대(`/assets/...`)로 되어 있지 않은지 확인. 이 프로젝트는 모두 상대 경로로 작성되어 있습니다.
 - **언더스코어로 시작하는 폴더가 사라짐** → 루트의 `.nojekyll` 파일이 비어있는 상태로 존재하는지 확인.
 - **한글/공백 포함 파일명이 404** → `encodeURI()` 처리는 코드에서 이미 하지만, 파일명 자체에 오타가 없는지 확인.

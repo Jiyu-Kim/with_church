@@ -7,9 +7,9 @@
  *
  * ⚠️ 키 보호 책임
  *   - Naver Cloud Console: Maps 앱 > Web 서비스 URL 에 등록된 도메인만 허용.
- *     (http://localhost:8000, https://jiyu-kim.github.io)
+ *     (http://localhost:8000, https://w1th-church.vercel.app, https://jiyu-kim.github.io)
  *   - Google Cloud Console: API 키 > 애플리케이션 제한 > "HTTP 리퍼러" 로 제한.
- *     허용 리퍼러: http://localhost:8000/*, https://jiyu-kim.github.io/*
+ *     허용 리퍼러: http://localhost:8000/*, https://w1th-church.vercel.app/*, https://jiyu-kim.github.io/*
  *   - 제한 안 걸면 누가 키를 복사해서 마음대로 쓸 수 있음 → 비용/쿼터 손실 가능.
  *
  * 키 교체 시 이 파일만 수정하면 모든 페이지에 반영됩니다.

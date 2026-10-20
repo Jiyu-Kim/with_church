@@ -46,3 +46,7 @@ ehthumbs.db
 # ===== Original prompt (keep local for reference) =====
 PROMPT.md
 layout.jpeg
+
+# ===== Vercel CLI (vercel link) =====
+.vercel
+.env*
