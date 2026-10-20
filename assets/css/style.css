@@ -583,6 +583,18 @@ p { margin: 0 0 1em; }
 .service-table tbody tr:hover {
   background: var(--color-bg);
 }
+/* Split cell (e.g. 주일 1부/2부): slots fill the cell edge-to-edge with a
+   divider between them, so 구분/장소 read as spanning both lines. */
+.service-table tbody td.is-split { padding: 0; }
+.service-slot { padding: 0.95rem 1.1rem; }
+.service-slot + .service-slot { border-top: 1px solid var(--color-bg); }
+.service-part {
+  display: inline-block;
+  min-width: 2.2rem;
+  margin-right: 0.5rem;
+  font-weight: 600;
+  color: var(--color-primary);
+}
 @media (max-width: 600px) {
   /* Below 600px the 3-column grid gets too cramped (장소 text overflows /
      squishes). Reflow each row into a stacked card: 구분 as the heading, then
@@ -633,6 +645,9 @@ p { margin: 0 0 1em; }
     font-size: 0.85rem;
     padding-top: 0.05rem;
   }
+  .service-table tbody td.is-split { padding: 0.25rem 0; }
+  .service-slot { padding: 0; }
+  .service-slot + .service-slot { border-top: none; }
 }
 
 /* ============ Worship video ============ */
